@@ -23,7 +23,7 @@ run:: build
 	./bin/$(PROJECT_NAME) ${ARGS}
 
 .PHONY: build
-build:
+build: 
 	@echo $(PROJECT_NAME)
 	go build  -o ./bin/$(PROJECT_NAME) ./cmd/$(PROJECT_NAME)/
 
@@ -42,6 +42,32 @@ test:
 	GOCACHE=$(GOCACHE) $(RICHGO) test ./... -timeout 120s -race ${ARGS}
 
 .PHONY: migrations
-migrations:
+migrations: 
 	go build  -o ./bin/migrations ./cmd/migrations/
 	./bin/migrations
+
+.PHONY: db
+db:
+	mkdir -p data
+	docker run -d \
+	--name db_postgres \
+	--hostname ${DB_HOST} \
+	-e POSTGRES_PASSWORD=${DB_PASS} \
+	-e PGDATA=$(PWD)/data/ \
+	-p ${DB_PORT}:5432 \
+	postgres:9.6.9
+
+.PHONY: db_start
+db_start:
+	docker start db_postgres
+
+.PHONY: clean
+clean: 
+	docker stop db_postgres && docker rm db_postgres
+
+.PHONY: db_logs
+db_logs:
+	docker logs -f db_postgres
+
+.PHONY: db_new
+db_new: clean db log
