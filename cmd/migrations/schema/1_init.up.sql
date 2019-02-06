@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS demo.user (
     email TEXT NOT NULL DEFAULT '',
     mobile TEXT, -- nullable
     age BIGINT, -- nullable
-    admin BOOLEAN NOT NULL DEFAULT false,
+    admin BOOLEAN NOT NULL DEFAULT false
 );
 
 
@@ -20,5 +20,5 @@ CREATE TABLE IF NOT EXISTS demo.address (
     postcode TEXT NOT NULL DEFAULT '',
     state TEXT NOT NULL DEFAULT '',
     country TEXT NOT NULL DEFAULT '',    
-    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES user(id)
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES demo.user(id)
 );

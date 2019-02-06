@@ -45,6 +45,18 @@
   name = "github.com/pkg/errors"
   version = "0.8.1"
 
+[[constraint]]
+  name = "github.com/satori/go.uuid"
+  version = "v1.2.0"
+
+[[constraint]]
+  name = "github.com/jmoiron/sqlx"
+  version = "v1.2.0"
+
+[[constraint]]
+  name = "github.com/go-pg/pg"
+  version = "v7.1.7"
+
 [prune]
   go-tests = true
   unused-packages = true

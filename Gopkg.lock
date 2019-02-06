@@ -10,12 +10,38 @@
   version = "1.4"
 
 [[projects]]
+  digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
+  pruneopts = "UT"
+  revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
+  version = "v1.1.1"
+
+[[projects]]
   digest = "1:865079840386857c809b72ce300be7580cb50d3d3129ce11bf9aa6ca2bc1934a"
   name = "github.com/fatih/color"
   packages = ["."]
   pruneopts = "UT"
   revision = "5b77d2a35fb0ede96d138fc9a99f5c9b6aef11b4"
   version = "v1.7.0"
+
+[[projects]]
+  digest = "1:139709b3b4eab483f24d2ef792e296502dd2a129fef6c5055aef7f9b07f87797"
+  name = "github.com/go-pg/pg"
+  packages = [
+    ".",
+    "internal",
+    "internal/iszero",
+    "internal/parser",
+    "internal/pool",
+    "internal/struct_filter",
+    "internal/tag",
+    "orm",
+    "types",
+  ]
+  pruneopts = "UT"
+  revision = "750698e034bbc0f35e33e69df35cd8cc4c6b7d3d"
+  version = "v7.1.7"
 
 [[projects]]
   digest = "1:692b29784ba0a25c33a77cb4c2594e2ffc1e72fc66e17e87503e03a29cb227c5"
@@ -30,6 +56,25 @@
   pruneopts = "UT"
   revision = "4937cd088f7c7193ee59b319c1c2caa7482aae8e"
   version = "v3.5.4"
+
+[[projects]]
+  branch = "master"
+  digest = "1:fd97437fbb6b7dce04132cf06775bd258cce305c44add58eb55ca86c6c325160"
+  name = "github.com/jinzhu/inflection"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "04140366298a54a039076d798123ffa108fff46c"
+
+[[projects]]
+  digest = "1:6c41d4f998a03b6604227ccad36edaed6126c397e5d78709ef4814a1145a6757"
+  name = "github.com/jmoiron/sqlx"
+  packages = [
+    ".",
+    "reflectx",
+  ]
+  pruneopts = "UT"
+  revision = "d161d7a76b5661016ad0b085869f77fd410f3e6a"
+  version = "v1.2.0"
 
 [[projects]]
   digest = "1:8ef506fc2bb9ced9b151dafa592d4046063d744c646c1bbe801982ce87e4bc24"
@@ -67,6 +112,22 @@
   version = "v0.8.1"
 
 [[projects]]
+  digest = "1:274f67cb6fed9588ea2521ecdac05a6d62a8c51c074c1fccc6a49a40ba80e925"
+  name = "github.com/satori/go.uuid"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:f92f6956e4059f6a3efc14924d2dd58ba90da25cc57fe07ae3779ef2f5e0c5f2"
+  name = "golang.org/x/crypto"
+  packages = ["pbkdf2"]
+  pruneopts = "UT"
+  revision = "b8fe1690c61389d7d2a8074a507d1d40c5d30448"
+
+[[projects]]
   branch = "master"
   digest = "1:bd7f9a2ec2751199499f5cf1d0e23ccf4d92f75b4bfba17ce79ae0f7c85deaa9"
   name = "golang.org/x/sys"
@@ -74,18 +135,29 @@
   pruneopts = "UT"
   revision = "770c60269bf0ef965e9e7ac8bedcb6bca2a1cefd"
 
+[[projects]]
+  digest = "1:999d566ad1ae4303c456af5a155f7b42401cca4fd33552567ed9dd997b107a08"
+  name = "mellium.im/sasl"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "e58e780e1378aa4df5dc705364ff5ae9a4dd1e04"
+  version = "v0.2.1"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
     "github.com/briandowns/spinner",
+    "github.com/davecgh/go-spew/spew",
     "github.com/fatih/color",
+    "github.com/go-pg/pg",
     "github.com/golang-migrate/migrate",
     "github.com/golang-migrate/migrate/database/postgres",
-    "github.com/golang-migrate/migrate/source",
     "github.com/golang-migrate/migrate/source/file",
+    "github.com/jmoiron/sqlx",
     "github.com/lib/pq",
     "github.com/pkg/errors",
+    "github.com/satori/go.uuid",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
