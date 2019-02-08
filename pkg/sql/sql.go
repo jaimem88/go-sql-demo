@@ -44,15 +44,15 @@ func (s *SQLStore) InsertAddress(addr *types.Address) (*types.Address, error) {
 	return addr, errors.Wrap(err, "failed to insert address")
 }
 
-func (s *SQLStore) GetUser(id string) (*types.User, error) {
+func (s *SQLStore) GetUserByEmail(email string) (*types.User, error) {
 	u := &types.User{}
 	err := s.db.QueryRow(`SELECT id, name, email, mobile, age, admin 
-	FROM demo.user WHERE id = $1`, id).
-		Scan(&u.ID, u.Name, u.Mobile, u.Age, u.Admin)
+	FROM demo.user WHERE email = $1`, email).
+		Scan(&u.ID, &u.Name, &u.Email, &u.Mobile, &u.Age, &u.Admin)
 	return u, errors.Wrap(err, "failed to get user")
 }
 
-func (s *SQLStore) GetAddress(userID string) (*types.Address, error) {
+func (s *SQLStore) GetAddressByUserID(userID string) (*types.Address, error) {
 	addr := &types.Address{}
 	err := s.db.QueryRow(`SELECT id, user_id,street_address, suburb, postcode, state, country 
 	FROM demo.address WHERE user_id = $1`, userID).
