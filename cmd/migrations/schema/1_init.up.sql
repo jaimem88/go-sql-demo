@@ -5,7 +5,7 @@ CREATE extension IF NOT EXISTS "uuid-ossp";
 CREATE TABLE IF NOT EXISTS demo.user (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name TEXT NOT NULL DEFAULT '',
-    email TEXT NOT NULL DEFAULT '',
+    email TEXT NOT NULL UNIQUE,
     mobile TEXT, -- nullable
     age BIGINT, -- nullable
     admin BOOLEAN NOT NULL DEFAULT false
