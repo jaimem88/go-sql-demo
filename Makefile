@@ -70,4 +70,4 @@ db_logs:
 	docker logs -f db_postgres
 
 .PHONY: db_new
-db_new: clean db log
+db_new: clean db db_logs

@@ -2,6 +2,7 @@ package types
 
 import (
 	"database/sql"
+	"fmt"
 
 	uuid "github.com/satori/go.uuid"
 )
@@ -28,4 +29,55 @@ type Address struct {
 type UserAddress struct {
 	*User
 	*Address
+}
+
+func (u *User) ToSlice() []interface{} {
+	return []interface{}{
+		u.ID,
+		u.Name,
+		u.Email,
+		u.Mobile.String,
+		u.Age.Int64,
+		u.Admin,
+	}
+}
+
+func (a *Address) ToSlice() []interface{} {
+	return []interface{}{
+		a.ID,
+		a.UserID,
+		a.StreetAddress,
+		a.Suburb,
+		a.Postcode,
+		a.State,
+		a.Country,
+	}
+}
+
+func (ua *UserAddress) ToSlice() []interface{} {
+	return []interface{}{
+		ua.User.ID,
+		ua.User.Name,
+		ua.User.Email,
+		ua.User.Mobile.String,
+		ua.User.Age.Int64,
+		ua.User.Admin,
+		ua.Address.ID,
+		ua.Address.UserID,
+		ua.Address.StreetAddress,
+		ua.Address.Suburb,
+		ua.Address.Postcode,
+		ua.Address.State,
+		ua.Address.Country,
+	}
+}
+func UAToSlice(ua []*UserAddress) []interface{} {
+	r := make([]interface{}, len(ua))
+	for k, v := range ua {
+		r[k] = append(v.User.ToSlice(), v.Address.ToSlice()...)
+		fmt.Printf("UATOSLICE USER %+v\n", v.User)
+		fmt.Printf("UATOSLICE ADDR %+v\n", v.Address)
+	}
+	fmt.Printf("UATOSLICE %+v\n", r)
+	return r
 }

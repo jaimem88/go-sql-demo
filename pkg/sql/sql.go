@@ -61,8 +61,8 @@ func (s *SQLStore) GetAddressByUserID(userID string) (*types.Address, error) {
 }
 
 func (s *SQLStore) GetAllUsersAndAddresses() ([]*types.UserAddress, error) {
-	rows, err := s.db.Query(`SELECT u.id, u.name, u.email, u.mobile, u.age, u.admin
-		a.street_address, a.suburb, a.postcode, a.state, a.country
+	rows, err := s.db.Query(`SELECT u.id, u.name, u.email, u.mobile, u.age, u.admin,
+		a.id, a.user_id, a.street_address, a.suburb, a.postcode, a.state, a.country
 		FROM demo.user u JOIN demo.address a ON a.user_id = u.id`,
 	)
 	if err != nil {
@@ -71,9 +71,14 @@ func (s *SQLStore) GetAllUsersAndAddresses() ([]*types.UserAddress, error) {
 	results := []*types.UserAddress{}
 
 	for rows.Next() {
-		uAddr := &types.UserAddress{}
-		if err := rows.Scan(&uAddr.User.ID, &uAddr.Name, &uAddr.Email, &uAddr.Mobile, &uAddr.Age, &uAddr.Admin,
-			&uAddr.StreetAddress, &uAddr.Suburb, &uAddr.Postcode, &uAddr.State, &uAddr.Country,
+		uAddr := &types.UserAddress{
+			User:    &types.User{},
+			Address: &types.Address{},
+		}
+		if err := rows.Scan(
+			&uAddr.User.ID, &uAddr.Name, &uAddr.Email, &uAddr.Mobile, &uAddr.Age, &uAddr.Admin,
+			&uAddr.Address.ID, &uAddr.Address.UserID, &uAddr.StreetAddress, &uAddr.Suburb, &uAddr.Postcode,
+			&uAddr.State, &uAddr.Country,
 		); err != nil {
 			return nil, errors.Wrap(err, "failed to get all users and addresses")
 		}
