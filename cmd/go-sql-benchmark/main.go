@@ -12,7 +12,9 @@ import (
 	"github.com/briandowns/spinner"
 	"github.com/fatih/color"
 	"github.com/jaimemartinez88/go-sql-benchmark/pkg/demo"
+	"github.com/jaimemartinez88/go-sql-benchmark/pkg/gopg"
 	"github.com/jaimemartinez88/go-sql-benchmark/pkg/sql"
+	"github.com/jaimemartinez88/go-sql-benchmark/pkg/sqlx"
 	"github.com/jaimemartinez88/go-sql-benchmark/pkg/types"
 	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"
@@ -67,14 +69,25 @@ func menu() {
 	case '1':
 		sqlStore, err := sql.New(dbConnStr)
 		if err != nil {
-			errColor.Printf("failed to open DB connection! %s", err)
+			errColor.Printf("failed to open sql DB connection! %s", err)
+			break
 		}
 		store = sqlStore
 
 	case '2':
-
+		sqlxStore, err := sqlx.New(dbConnStr)
+		if err != nil {
+			errColor.Printf("failed to open sqlx DB connection! %s", err)
+			break
+		}
+		store = sqlxStore
 	case '3':
-
+		gp, err := gopg.New(dbUser, dbPass, dbName, dbHost, dbPort)
+		if err != nil {
+			errColor.Printf("failed to open gopg DB connection! %s", err)
+			break
+		}
+		store = gp
 	case '0':
 		return
 	default:

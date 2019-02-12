@@ -25,16 +25,16 @@ func New(user, pass, dbName, host, port string) (*GoPGStore, error) {
 	}, nil
 }
 
-func (s *GoPGStore) InsertUser(u *types.User) error {
-	return nil
-}
-func (s *GoPGStore) InsertAddress(*types.Address) error {
-	return nil
-}
-func (s *GoPGStore) GetUser(id string) (*types.User, error) {
+func (s *GoPGStore) InsertUser(u *types.User) (*types.User, error) {
 	return nil, nil
 }
-func (s *GoPGStore) GetAddress(id string) (*types.Address, error) {
+func (s *GoPGStore) InsertAddress(*types.Address) (*types.Address, error) {
+	return nil, nil
+}
+func (s *GoPGStore) GetUserByEmail(email string) (*types.User, error) {
+	return nil, nil
+}
+func (s *GoPGStore) GetAddressByUserID(userID string) (*types.Address, error) {
 	return nil, nil
 }
 func (s *GoPGStore) GetAllUsersAndAddresses() ([]*types.UserAddress, error) {

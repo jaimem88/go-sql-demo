@@ -29,6 +29,7 @@ func (s *SQLStore) InsertUser(u *types.User) (*types.User, error) {
 	) VALUES(
 		$1, $2, $3, $4, $5
 	) RETURNING id`, u.Name, u.Email, u.Mobile, u.Age, u.Admin).Scan(&u.ID)
+	// posgtress does not support LastInsertedId()  https://github.com/lib/pq/issues/24
 
 	return u, errors.Wrap(err, "failed to insert user")
 }
