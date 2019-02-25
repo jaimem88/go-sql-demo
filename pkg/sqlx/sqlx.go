@@ -58,22 +58,34 @@ func (s *SQLXStore) InsertAddress(addr *types.Address) (*types.Address, error) {
 
 func (s *SQLXStore) GetUserByEmail(email string) (*types.User, error) {
 	u := types.User{}
-	err := s.dbx.Get(&u, `SELECT id::text, name, email, mobile, age, admin 
+	err := s.dbx.Get(&u, `SELECT id, name, email, mobile, age, admin 
 	FROM demo.user WHERE email = $1 `, email)
 
 	return &u, err
 }
 func (s *SQLXStore) GetAddressByUserID(userID string) (*types.Address, error) {
 	addr := types.Address{}
-	err := s.dbx.Get(&addr, `SELECT id::text, user_id,street_address, suburb, postcode, state, country 
+	err := s.dbx.Get(&addr, `SELECT id, user_id,street_address, suburb, postcode, state, country 
 	FROM demo.address WHERE user_id = $1`, userID)
 	return &addr, err
 }
 func (s *SQLXStore) GetAllUsersAndAddresses() ([]*types.UserAddress, error) {
 	ua := []*types.UserAddress{}
 
-	err := s.dbx.Select(&ua, `SELECT u.id::text, u.name, u.email, u.mobile, u.age, u.admin,
-	a.id, a.user_id, a.street_address, a.suburb, a.postcode, a.state, a.country
+	err := s.dbx.Select(&ua, `SELECT 
+		u.id "user.id", 
+		u.name "user.name", 
+		u.email "user.email", 
+		u.mobile "user.mobile", 
+		u.age "user.age", 
+		u.admin "user.admin",
+		a.id "address.id", 
+		a.user_id "address.user_id", 
+		a.street_address "address.street_address", 
+		a.suburb "address.suburb", 
+		a.postcode "address.postcode", 
+		a.state "address.state", 
+		a.country "address.country"
 	FROM demo.user u JOIN demo.address a ON a.user_id = u.id`)
 	return ua, err
 }
