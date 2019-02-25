@@ -1,6 +1,10 @@
 package demo
 
-import "github.com/jaimemartinez88/go-sql-benchmark/pkg/types"
+import (
+	"errors"
+
+	"github.com/jaimemartinez88/go-sql-benchmark/pkg/types"
+)
 
 type Store interface {
 	InsertUser(*types.User) (*types.User, error)
@@ -37,4 +41,30 @@ func (d *Demo) GetAddress(userID string) (*types.Address, error) {
 
 func (d *Demo) GetAllUsersAndAddresses() ([]*types.UserAddress, error) {
 	return d.store.GetAllUsersAndAddresses()
+}
+
+func (d *Demo) GenData(n int) ([]*types.UserAddress, error) {
+
+	if n >= 100 {
+		return nil, errors.New("hey! that's a bit too many")
+	}
+	ua := make([]*types.UserAddress, n)
+	for i := 0; i < n; i++ {
+		u := randUser()
+		u, err := d.CreateUser(u)
+		if err != nil {
+			return nil, err
+		}
+		a := randAddr(u.ID)
+		addr, err := d.CreateAddress(a)
+		if err != nil {
+			return nil, err
+		}
+		ua[i] = &types.UserAddress{
+			User:    u,
+			Address: addr,
+		}
+	}
+	return ua, nil
+
 }

@@ -47,57 +47,60 @@ func main() {
 // nolint: gocyclo
 func menu() {
 	fmt.Println("\033[2J")
-	successColor.Println("Serversiders SQL DEMO!")
+L:
+	for {
+		successColor.Println("Serversiders SQL DEMO!")
 
-	mainColor.Println("What would you like to do:")
+		mainColor.Println("What would you like to do:")
 
-	infoColor.Println("(1) database/sql")
-	infoColor.Println("(2) sqlx")
-	infoColor.Println("(3) Go PG ORM")
+		infoColor.Println("(1) database/sql")
+		infoColor.Println("(2) sqlx")
+		infoColor.Println("(3) Go PG ORM")
 
-	infoColor.Println("(0) Exit")
+		infoColor.Println("(0) Exit")
 
-	mainColor.Print("Your choice: ")
-	reader := bufio.NewReader(os.Stdin)
-	char, _, err := reader.ReadRune()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		mainColor.Print("Your choice: ")
+		reader := bufio.NewReader(os.Stdin)
+		char, _, err := reader.ReadRune()
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		var store demo.Store
+		switch char {
+		case '1':
+			sqlStore, err := sql.New(dbConnStr)
+			if err != nil {
+				errColor.Printf("failed to open sql DB connection! %s", err)
+				break
+			}
+			store = sqlStore
+
+		case '2':
+			sqlxStore, err := sqlx.New(dbConnStr)
+			if err != nil {
+				errColor.Printf("failed to open sqlx DB connection! %s", err)
+				break
+			}
+			store = sqlxStore
+		case '3':
+			gp, err := gopg.New(dbUser, dbPass, dbName, dbHost, dbPort)
+			if err != nil {
+				errColor.Printf("failed to open gopg DB connection! %s", err)
+				break
+			}
+			store = gp
+		case '0':
+			break L
+		default:
+			errColor.Println("Invalid Choice, please try again.")
+			continue
+		}
+
+		d := demo.New(store)
+
+		subMenu(d)
 	}
-	var store demo.Store
-	switch char {
-	case '1':
-		sqlStore, err := sql.New(dbConnStr)
-		if err != nil {
-			errColor.Printf("failed to open sql DB connection! %s", err)
-			break
-		}
-		store = sqlStore
-
-	case '2':
-		sqlxStore, err := sqlx.New(dbConnStr)
-		if err != nil {
-			errColor.Printf("failed to open sqlx DB connection! %s", err)
-			break
-		}
-		store = sqlxStore
-	case '3':
-		gp, err := gopg.New(dbUser, dbPass, dbName, dbHost, dbPort)
-		if err != nil {
-			errColor.Printf("failed to open gopg DB connection! %s", err)
-			break
-		}
-		store = gp
-	case '0':
-		return
-	default:
-		errColor.Println("Invalid Choice, please try again.")
-	}
-
-	d := demo.New(store)
-
-	subMenu(d)
-	menu()
 }
 
 func subMenu(d *demo.Demo) {
@@ -107,6 +110,7 @@ func subMenu(d *demo.Demo) {
 	infoColor.Println("(1) create user")
 	infoColor.Println("(2) get user")
 	infoColor.Println("(3) get all users and addresses")
+	infoColor.Println("(4) generate random users")
 
 	infoColor.Println("(0) Exit")
 
@@ -159,6 +163,17 @@ func subMenu(d *demo.Demo) {
 		usersAndAddr, err := d.GetAllUsersAndAddresses()
 		if err != nil {
 			errColor.Printf("failed to get users! %s\n", err)
+			break
+		}
+		successColor.Println("All users:")
+		if err := tableUserAddress(append(userCols, addressCols...), usersAndAddr); err != nil {
+			errColor.Printf("failed to print table %s\n", err)
+			break
+		}
+	case '4':
+		usersAndAddr, err := d.GenData(10)
+		if err != nil {
+			errColor.Printf("failed to gen users! %s\n", err)
 			break
 		}
 		successColor.Println("All users:")

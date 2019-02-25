@@ -20,5 +20,5 @@ CREATE TABLE IF NOT EXISTS demo.address (
     postcode TEXT NOT NULL DEFAULT '',
     state TEXT NOT NULL DEFAULT '',
     country TEXT NOT NULL DEFAULT '',    
-    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES demo.user(id)
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES demo.user(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
