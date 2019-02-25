@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/go-pg/pg"
-	"github.com/jaimemartinez88/go-sql-benchmark/pkg/types"
+	"github.com/jaimemartinez88/go-sql-demo/pkg/types"
 )
 
 type GoPGStore struct {

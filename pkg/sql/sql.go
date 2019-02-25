@@ -3,7 +3,7 @@ package sql
 import (
 	"database/sql"
 
-	"github.com/jaimemartinez88/go-sql-benchmark/pkg/types"
+	"github.com/jaimemartinez88/go-sql-demo/pkg/types"
 	_ "github.com/lib/pq"
 	"github.com/pkg/errors"
 )

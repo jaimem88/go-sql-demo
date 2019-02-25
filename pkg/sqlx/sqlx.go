@@ -1,7 +1,7 @@
 package sqlx
 
 import (
-	"github.com/jaimemartinez88/go-sql-benchmark/pkg/types"
+	"github.com/jaimemartinez88/go-sql-demo/pkg/types"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"github.com/pkg/errors"

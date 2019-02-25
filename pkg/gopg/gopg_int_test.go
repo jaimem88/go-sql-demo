@@ -1,40 +1,37 @@
-package sqlx
+package gopg
 
 import (
 	"database/sql"
-	"fmt"
 	"os"
 	"testing"
 
+	"github.com/go-pg/pg"
 	"github.com/go-test/deep"
 	"github.com/jaimemartinez88/go-sql-demo/pkg/types"
-	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 var (
-	dbUser    = os.Getenv("DB_USER")
-	dbPass    = os.Getenv("DB_PASS")
-	dbHost    = os.Getenv("DB_HOST")
-	dbPort    = os.Getenv("DB_PORT")
-	dbName    = os.Getenv("DB_NAME")
-	dbConnStr = fmt.Sprintf("postgres://%s:%s@%s:%s/%s?application_name=%s&sslmode=disable", dbUser, dbPass, dbHost, dbPort, dbName, "demo")
+	dbUser = os.Getenv("DB_USER")
+	dbPass = os.Getenv("DB_PASS")
+	dbHost = os.Getenv("DB_HOST")
+	dbPort = os.Getenv("DB_PORT")
+	dbName = os.Getenv("DB_NAME")
 )
 
-func TestSQLXStore_InsertUser(t *testing.T) {
-	s, err := New(dbConnStr)
-	require.NoError(t, err, "open dbx connection")
+func TestGoPGStore_InsertUser(t *testing.T) {
+	s, err := New(dbUser, dbPass, dbName, dbHost, dbPort)
+	require.NoError(t, err, "open db connection")
 	u := types.User{
 		Name:   "test name",
-		Email:  "test_sqlx@name.com",
+		Email:  "test_pg@name.com",
 		Mobile: sql.NullString{String: "0433333312", Valid: true},
 		Age:    sql.NullInt64{Int64: 33, Valid: true},
 		Admin:  true,
 	}
-	cleanUser(t, s.dbx, u.Email)
+	cleanUser(t, s.db, u.Email)
 	tests := []struct {
 		name    string
 		u       types.User
@@ -53,10 +50,10 @@ func TestSQLXStore_InsertUser(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := s.InsertUser(&tt.u)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("SQLXStore.InsertUser() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("GoPGStore.InsertUser() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			defer cleanUser(t, s.dbx, got.Email)
+			defer cleanUser(t, s.db, got.Email)
 
 			// don't do this at home
 			got.ID = uuid.Nil
@@ -66,9 +63,9 @@ func TestSQLXStore_InsertUser(t *testing.T) {
 	}
 }
 
-func cleanUser(t *testing.T, dbx *sqlx.DB, email string) {
+func cleanUser(t *testing.T, db *pg.DB, email string) {
 	t.Helper()
 
-	_, err := dbx.Exec(`DELETE FROM demo.user WHERE email = $1`, email)
+	_, err := db.Exec(`DELETE FROM demo.user WHERE email = ?`, email)
 	require.NoError(t, err, "clean user")
 }

@@ -3,7 +3,7 @@ package demo
 import (
 	"errors"
 
-	"github.com/jaimemartinez88/go-sql-benchmark/pkg/types"
+	"github.com/jaimemartinez88/go-sql-demo/pkg/types"
 )
 
 type Store interface {
