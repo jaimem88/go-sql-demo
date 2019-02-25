@@ -8,15 +8,17 @@ import (
 )
 
 type User struct {
-	ID     uuid.UUID      `json:"id" db:"id" sql:"id"`
-	Name   string         `json:"name" db:"name" sql:"name"`
-	Email  string         `json:"email" db:"email" sql:"email"`
-	Mobile sql.NullString `json:"mobile" db:"mobile" sql:"mobile"`
-	Age    sql.NullInt64  `json:"age" db:"age" sql:"age"`
-	Admin  bool           `json:"admin" db:"admin" sql:"admin"`
+	TableName struct{}       `sql:"demo.user"`
+	ID        uuid.UUID      `json:"id" db:"id" sql:"id"`
+	Name      string         `json:"name" db:"name" sql:"name"`
+	Email     string         `json:"email" db:"email" sql:"email"`
+	Mobile    sql.NullString `json:"mobile" db:"mobile" sql:"mobile"`
+	Age       sql.NullInt64  `json:"age" db:"age" sql:"age"`
+	Admin     bool           `json:"admin" db:"admin" sql:"admin"`
 }
 
 type Address struct {
+	TableName     struct{}  `sql:"demo.address"`
 	ID            uuid.UUID `json:"id" db:"id" sql:"id"`
 	UserID        uuid.UUID `json:"user_id" db:"user_id" sql:"user_id"`
 	StreetAddress string    `json:"street_addressl" db:"street_address" sql:"street_address"`
@@ -27,8 +29,9 @@ type Address struct {
 }
 
 type UserAddress struct {
-	*User
-	*Address
+	TableName struct{} `sql:"demo.user"`
+	*User     `db:"user"`
+	*Address  `db:"address"`
 }
 
 func (u *User) ToSlice() []interface{} {
