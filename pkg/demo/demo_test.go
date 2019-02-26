@@ -2,11 +2,14 @@ package demo
 
 import (
 	dbsql "database/sql"
+	"fmt"
 	"testing"
+	"time"
 
 	"github.com/jaimemartinez88/go-sql-demo/pkg/gopg"
 	"github.com/jaimemartinez88/go-sql-demo/pkg/sql"
 	"github.com/jaimemartinez88/go-sql-demo/pkg/sqlx"
+	"github.com/jaimemartinez88/go-sql-demo/pkg/types"
 )
 
 var (
@@ -40,9 +43,34 @@ func BenchmarkMain(b *testing.B) {
 	dGoPG = New(gopgStore)
 }
 func benchmarkGenData(b *testing.B, d *Demo, n int) {
-	if _, err := d.GenData(n); err != nil {
-		b.Fatalf("failed to gen data %v", err)
+	for i := 0; i < n; i++ {
+		u := &types.User{
+			Name:   "name",
+			Email:  fmt.Sprintf("%s_email_%d@test.com", b.Name(), time.Now().UnixNano()),
+			Mobile: dbsql.NullString{String: "0123456789", Valid: true},
+			Age:    dbsql.NullInt64{Int64: 30, Valid: true},
+			Admin:  true,
+		}
+		u, err := d.CreateUser(u)
+		if err != nil {
+			b.Errorf("failed to create user %s", err)
+			return
+		}
+		a := &types.Address{
+			UserID:        u.ID,
+			StreetAddress: "sstreet_address",
+			Suburb:        "suburb",
+			State:         "state",
+			Postcode:      "postcode",
+			Country:       "country",
+		}
+		_, err = d.CreateAddress(a)
+		if err != nil {
+			b.Errorf("failed to create addrs %s", err)
+			return
+		}
 	}
+
 }
 func BenchmarkSQLGenData2(b *testing.B)     { benchmarkGenData(b, dSQL, 2) }
 func BenchmarkSQLGenData10(b *testing.B)    { benchmarkGenData(b, dSQL, 10) }
