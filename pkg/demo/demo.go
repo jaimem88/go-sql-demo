@@ -1,9 +1,19 @@
 package demo
 
 import (
-	"errors"
+	"fmt"
+	"os"
 
 	"github.com/jaimemartinez88/go-sql-demo/pkg/types"
+)
+
+var (
+	DBUser    = os.Getenv("DB_USER")
+	DBPass    = os.Getenv("DB_PASS")
+	DBHost    = os.Getenv("DB_HOST")
+	DBPort    = os.Getenv("DB_PORT")
+	DBName    = os.Getenv("DB_NAME")
+	DBConnStr = fmt.Sprintf("postgres://%s:%s@%s:%s/%s?application_name=%s&sslmode=disable", DBUser, DBPass, DBHost, DBPort, DBName, "demo")
 )
 
 type Store interface {
@@ -45,9 +55,6 @@ func (d *Demo) GetAllUsersAndAddresses() ([]*types.UserAddress, error) {
 
 func (d *Demo) GenData(n int) ([]*types.UserAddress, error) {
 
-	if n >= 100 {
-		return nil, errors.New("hey! that's a bit too many")
-	}
 	ua := make([]*types.UserAddress, n)
 	for i := 0; i < n; i++ {
 		u := randUser()

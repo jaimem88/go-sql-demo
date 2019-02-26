@@ -30,13 +30,6 @@ var (
 	successColor = color.New(color.FgHiGreen)
 	errColor     = color.New(color.FgRed)
 	s            = spinner.New(spinner.CharSets[9], 100*time.Millisecond)
-
-	dbUser    = os.Getenv("DB_USER")
-	dbPass    = os.Getenv("DB_PASS")
-	dbHost    = os.Getenv("DB_HOST")
-	dbPort    = os.Getenv("DB_PORT")
-	dbName    = os.Getenv("DB_NAME")
-	dbConnStr = fmt.Sprintf("postgres://%s:%s@%s:%s/%s?application_name=%s&sslmode=disable", dbUser, dbPass, dbHost, dbPort, dbName, "demo")
 )
 
 func main() {
@@ -69,7 +62,7 @@ L:
 		var store demo.Store
 		switch char {
 		case '1':
-			sqlStore, err := sql.New(dbConnStr)
+			sqlStore, err := sql.New(demo.DBConnStr)
 			if err != nil {
 				errColor.Printf("failed to open sql DB connection! %s", err)
 				break
@@ -77,14 +70,14 @@ L:
 			store = sqlStore
 
 		case '2':
-			sqlxStore, err := sqlx.New(dbConnStr)
+			sqlxStore, err := sqlx.New(demo.DBConnStr)
 			if err != nil {
 				errColor.Printf("failed to open sqlx DB connection! %s", err)
 				break
 			}
 			store = sqlxStore
 		case '3':
-			gp, err := gopg.New(dbUser, dbPass, dbName, dbHost, dbPort)
+			gp, err := gopg.New(demo.DBUser, demo.DBPass, demo.DBName, demo.DBHost, demo.DBPort)
 			if err != nil {
 				errColor.Printf("failed to open gopg DB connection! %s", err)
 				break
