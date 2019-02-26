@@ -1,6 +1,7 @@
 # Go SQL Demo
 
 CLI to write/read from a postgres database using differnt libraries
+
 Presented during [Serveriders meetup](https://www.meetup.com/serversiders/) on Feb 26th 2019
 
 ## Tools used
