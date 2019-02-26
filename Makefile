@@ -41,6 +41,10 @@ static::
 test:
 	GOCACHE=$(GOCACHE) $(RICHGO) test ./... -timeout 120s -race ${ARGS}
 
+.PHONY: bench
+bench:
+	GOCACHE=$(GOCACHE) go test ./pkg/demo/ -bench=. -benchmem
+
 .PHONY: migrations
 migrations: 
 	go build  -o ./bin/migrations ./cmd/migrations/
@@ -61,13 +65,13 @@ db:
 db_start:
 	docker start db_postgres
 
-.PHONY: clean
-clean: 
-	docker stop db_postgres && docker rm db_postgres
+.PHONY: db_clean
+db_clean: 
+	docker stop db_postgres && docker rm db_postgres || true
 
 .PHONY: db_logs
 db_logs:
 	docker logs -f db_postgres
 
 .PHONY: db_new
-db_new: clean db db_logs
+db_new: db_clean db db_logs
