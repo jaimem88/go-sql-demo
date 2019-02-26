@@ -68,11 +68,15 @@ DB must be running on DB_PORT
 
 ### benchmark
 
+
 ```sh
     make bench
 ```
 
 **benchmark results**
+
+![macspec.png](macspec.png)
+
 ```sh
     GOCACHE=off go test ./pkg/demo/ -bench=. -benchmem
     goos: darwin
