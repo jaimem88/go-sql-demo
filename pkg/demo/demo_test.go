@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jaimemartinez88/go-sql-demo/pkg/gopg"
-	"github.com/jaimemartinez88/go-sql-demo/pkg/sql"
-	"github.com/jaimemartinez88/go-sql-demo/pkg/sqlx"
-	"github.com/jaimemartinez88/go-sql-demo/pkg/types"
+	"github.com/jaimem88/go-sql-demo/pkg/gopg"
+	"github.com/jaimem88/go-sql-demo/pkg/sql"
+	"github.com/jaimem88/go-sql-demo/pkg/sqlx"
+	"github.com/jaimem88/go-sql-demo/pkg/types"
 )
 
 var (

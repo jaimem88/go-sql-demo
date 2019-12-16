@@ -1,7 +1,7 @@
 package sqlx
 
 import (
-	"github.com/jaimemartinez88/go-sql-demo/pkg/types"
+	"github.com/jaimem88/go-sql-demo/pkg/types"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"github.com/pkg/errors"
@@ -48,6 +48,7 @@ func (s *SQLXStore) InsertAddress(addr *types.Address) (*types.Address, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to insert address")
 	}
+	defer rows.Close()
 	for rows.Next() {
 		if err := rows.Scan(&addr.ID); err != nil {
 			return nil, errors.Wrap(err, "failed to scan addr ID")

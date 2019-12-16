@@ -81,7 +81,7 @@ DB must be running on DB_PORT
    GOCACHE=off go test ./pkg/demo/ -bench=. -benchmem
     goos: darwin
     goarch: amd64
-    pkg: github.com/jaimemartinez88/go-sql-demo/pkg/demo
+    pkg: github.com/jaimem88/go-sql-demo/pkg/demo
     BenchmarkMain-8                	       1	7454721759 ns/op	   58736 B/op	     590 allocs/op
     BenchmarkSQLGenData2-8         	2000000000	         0.00 ns/op	       0 B/op	       0 allocs/op
     BenchmarkSQLGenData10-8        	2000000000	         0.02 ns/op	       0 B/op	       0 allocs/op
@@ -105,5 +105,5 @@ DB must be running on DB_PORT
     BenchmarkSQLXGetAllUsers-8     	2000000000	         0.09 ns/op	       0 B/op	       0 allocs/op
     BenchmarkGoPGGetAllUsers-8     	2000000000	         0.10 ns/op	       0 B/op	       0 allocs/op
     PASS
-    ok  	github.com/jaimemartinez88/go-sql-demo/pkg/demo	129.515s 
+    ok  	github.com/jaimem88/go-sql-demo/pkg/demo	129.515s 
 ```

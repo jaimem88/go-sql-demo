@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/go-test/deep"
-	"github.com/jaimemartinez88/go-sql-demo/pkg/types"
+	"github.com/jaimem88/go-sql-demo/pkg/types"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
