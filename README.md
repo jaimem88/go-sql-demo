@@ -78,7 +78,7 @@ DB must be running on DB_PORT
 ![macspec.png](macspec.png)
 
 ```sh
-   GOCACHE=off go test ./pkg/demo/ -bench=. -benchmem
+    go test ./pkg/demo/ -bench=. -benchmem
     goos: darwin
     goarch: amd64
     pkg: github.com/jaimem88/go-sql-demo/pkg/demo

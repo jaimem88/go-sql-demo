@@ -2,7 +2,6 @@
 export LOG_FORMATTER := $(if $(LOG_FORMATTER),$(LOG_FORMATTER),text)
 export LOG_LEVEL := $(if $(LOG_LEVEL),$(LOG_LEVEL),DEBUG)
 export ENVIRONMENT := $(if $(ENVIRONMENT),$(ENVIRONMENT),local)
-export GOCACHE := $(if $(GOCACHE),$(GOCACHE),off)
 
 # Base DB vars
 export DB_HOST := $(if $(DB_HOST),$(DB_HOST),localhost)
@@ -39,11 +38,11 @@ static::
 
 .PHONY: test
 test:
-	GOCACHE=$(GOCACHE) $(RICHGO) test ./... -timeout 120s -race ${ARGS}
+	$(RICHGO) test ./... -timeout 120s -race ${ARGS}
 
 .PHONY: bench
 bench:
-	GOCACHE=$(GOCACHE) go test ./pkg/demo/ -bench=. -benchmem
+	go test ./pkg/demo/ -bench=. -benchmem
 
 .PHONY: migrations
 migrations: 
